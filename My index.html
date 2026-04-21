@@ -1,172 +1,197 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My App</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            padding: 20px;
-            text-align: center;
-        }
-        h1 {
-            color: #007BFF;
-        }
-        .container {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 15px;
-            margin-top: 20px;
-        }
-        .box {
-            background-color: #ffffff;
-            border: 2px solid #ddd;
-            padding: 30px;
-            text-align: center;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .box i {
-            font-size: 40px;
-            color: #007BFF;
-            margin-bottom: 10px;
-        }
-        button {
-            background-color: #007BFF;
-            color: white;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        #app {
-            display: none;
-            margin-top: 20px;
-        }
-    </style>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&components=buttons"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <meta charset="UTF-8">
+  <title>Real Tools App</title>
+  <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-auth.js"></script>
+  
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: #0f172a;
+      color: white;
+      text-align: center;
+    }
+
+    h1 {
+      padding: 20px;
+      color: #facc15;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      padding: 15px;
+    }
+
+    .box {
+      background: white;
+      color: black;
+      padding: 15px;
+      border-radius: 12px;
+    }
+
+    button {
+      padding: 8px;
+      margin-top: 8px;
+      width: 100%;
+      background: #22c55e;
+      border: none;
+      border-radius: 8px;
+      color: white;
+    }
+  </style>
+
 </head>
+
 <body>
 
-<h1>Welcome to My Application</h1>
+  <h1>🔥 REAL TOOLS APP</h1>
 
-<div class="container">
-    <div class="box"><i class="fas fa-download"></i><br>Download</div>
-    <div class="box"><i class="fas fa-upload"></i><br>Upload</div>
-    <div class="box"><i class="fas fa-cogs"></i><br>Settings</div>
-    <div class="box"><i class="fas fa-search"></i><br>Search</div>
-    <div class="box"><i class="fas fa-info-circle"></i><br>Info</div>
-    <div class="box"><i class="fas fa-envelope"></i><br>Messages</div>
-    <div class="box"><i class="fas fa-bell"></i><br>Notifications</div>
-    <div class="box"><i class="fas fa-camera"></i><br>Camera</div>
-    <div class="box"><i class="fas fa-play-circle"></i><br>Media</div>
-    <div class="box"><i class="fas fa-cloud-upload-alt"></i><br>Cloud Upload</div>
-</div>
+  <!-- Firebase Authentication -->
+  <div class="box" id="loginBox">
+    <h2>Login</h2>
+    <input type="email" id="email" placeholder="Enter email">
+    <input type="password" id="password" placeholder="Enter password">
+    <button onclick="login()">Login</button>
+    <button onclick="signup()">Sign Up</button>
+  </div>
 
-<!-- Login Form -->
-<h2>Login</h2>
-<input id="email" type="email" placeholder="Enter Email" required><br><br>
-<input id="password" type="password" placeholder="Enter Password" required><br><br>
-<button onclick="login()">Login</button>
-<button onclick="register()">Register</button>
-<button onclick="forgotPassword()">Forgot Password?</button>
+  <!-- Your 10 Tools -->
 
-<!-- Application after login -->
-<div id="app">
-    <h3>Welcome to the App!</h3>
-    <button onclick="logout()">Logout</button>
-    <h3>Pay with PayPal</h3>
-    <div id="paypal-button-container"></div>
-    <button onclick="generatePDF()">Download PDF</button>
-</div>
+  <div class="container">
 
-<script>
-    // Firebase configuration
+    <!-- Text Tool -->
+    <div class="box">
+      📝 Text Tool<br>
+      <textarea id="text"></textarea>
+      <button onclick="upper()">UPPER</button>
+      <button onclick="lower()">lower</button>
+    </div>
+
+    <!-- Word Counter -->
+    <div class="box">
+      🔢 Word Counter<br>
+      <textarea id="countText"></textarea>
+      <button onclick="count()">Count</button>
+      <p id="result"></p>
+    </div>
+
+    <!-- Google Search -->
+    <div class="box">
+      🔍 Search Google<br>
+      <input id="search">
+      <button onclick="goSearch()">Search</button>
+    </div>
+
+    <!-- Download Text -->
+    <div class="box">
+      📥 Download Text<br>
+      <textarea id="dl"></textarea>
+      <button onclick="download()">Download</button>
+    </div>
+
+    <!-- Image Preview -->
+    <div class="box">
+      🖼️ Image Preview<br>
+      <input type="file" onchange="preview(event)">
+      <img id="img" width="100%">
+    </div>
+
+    <!-- AI Simple -->
+    <div class="box">
+      🤖 AI Simple<br>
+      <input id="ai">
+      <button onclick="ai()">Ask</button>
+      <p id="aiRes"></p>
+    </div>
+
+  </div>
+
+  <script>
+    // Firebase Configuration
     const firebaseConfig = {
-        apiKey: "YOUR_API_KEY",
-        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-        projectId: "YOUR_PROJECT_ID",
+      apiKey: "your-api-key",
+      authDomain: "your-auth-domain",
+      projectId: "your-project-id",
+      storageBucket: "your-storage-bucket",
+      messagingSenderId: "your-sender-id",
+      appId: "your-app-id"
     };
 
-    firebase.initializeApp(firebaseConfig);
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
-    // Register user
-    function register() {
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-        auth.createUserWithEmailAndPassword(email, password)
-            .then(() => alert("Account created successfully"))
-            .catch(e => alert(e.message));
-    }
-
-    // Login user
+    // Login Function
     function login() {
-        const email = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-        auth.signInWithEmailAndPassword(email, password)
-            .then(() => {
-                document.getElementById("app").style.display = "block";
-            })
-            .catch(e => alert(e.message));
-    }
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
 
-    // Logout user
-    function logout() {
-        auth.signOut().then(() => {
-            document.getElementById("app").style.display = "none";
+      auth.signInWithEmailAndPassword(email, password)
+        .then(userCredential => {
+          const user = userCredential.user;
+          alert('Logged in as ' + user.email);
+        })
+        .catch(error => {
+          alert(error.message);
         });
     }
 
-    // Forgot Password functionality
-    function forgotPassword() {
-        const email = document.getElementById("email").value;
-        if (email) {
-            auth.sendPasswordResetEmail(email)
-                .then(() => alert('Password reset email sent!'))
-                .catch(e => alert(e.message));
-        } else {
-            alert('Please enter your email first.');
-        }
+    // Signup Function
+    function signup() {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      auth.createUserWithEmailAndPassword(email, password)
+        .then(userCredential => {
+          const user = userCredential.user;
+          alert('Signed up as ' + user.email);
+        })
+        .catch(error => {
+          alert(error.message);
+        });
     }
 
-    // PayPal Button
-    paypal.Buttons({
-        createOrder: function(data, actions) {
-            return actions.order.create({
-                purchase_units: [{
-                    amount: {
-                        value: '10.00'
-                    }
-                }]
-            });
-        },
-        onApprove: function(data, actions) {
-            return actions.order.capture().then(function(details) {
-                alert('Payment successful, ' + details.payer.name.given_name);
-            });
-        }
-    }).render('#paypal-button-container');
-
-    // Generate PDF
-    function generatePDF() {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
-
-        doc.text('Welcome to My Application!', 10, 10);
-        doc.text('This is your PDF document.', 10, 20);
-        doc.save('document.pdf');
+    // Text Tool Functions
+    function upper() {
+      document.getElementById("text").value = document.getElementById("text").value.toUpperCase();
     }
-</script>
+
+    function lower() {
+      document.getElementById("text").value = document.getElementById("text").value.toLowerCase();
+    }
+
+    function count() {
+      let t = document.getElementById("countText").value;
+      document.getElementById("result").innerText = "Words: " + t.split(" ").length;
+    }
+
+    function goSearch() {
+      let q = document.getElementById("search").value;
+      window.open("https://www.google.com/search?q=" + q);
+    }
+
+    function download() {
+      let text = document.getElementById("dl").value;
+      let a = document.createElement("a");
+      a.href = "data:text/plain," + text;
+      a.download = "file.txt";
+      a.click();
+    }
+
+    function preview(e) {
+      document.getElementById("img").src = URL.createObjectURL(e.target.files[0]);
+    }
+
+    function ai() {
+      let x = document.getElementById("ai").value;
+      document.getElementById("aiRes").innerText = "AI reply: " + x;
+    }
+  </script>
 
 </body>
 </html>
