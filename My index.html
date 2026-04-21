@@ -1,36 +1,37 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App with Icons</title>
+    <title>My App</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            background-color: #f4f4f9;
             padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #007BFF;
         }
         .container {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
+            gap: 15px;
+            margin-top: 20px;
         }
         .box {
-            background-color: #fff;
+            background-color: #ffffff;
             border: 2px solid #ddd;
-            padding: 20px;
+            padding: 30px;
             text-align: center;
             border-radius: 8px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
         .box i {
             font-size: 40px;
-            margin-bottom: 10px;
             color: #007BFF;
+            margin-bottom: 10px;
         }
         button {
             background-color: #007BFF;
@@ -50,24 +51,25 @@
     </style>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script> <!-- jsPDF -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID&components=buttons"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
 <h1>Welcome to My Application</h1>
 
 <div class="container">
-    <div class="box"><i class="fas fa-download"></i> Download</div> <!-- رمز تحميل -->
-    <div class="box"><i class="fas fa-upload"></i> Upload</div> <!-- رمز رفع -->
-    <div class="box"><i class="fas fa-cogs"></i> Settings</div> <!-- رمز إعدادات -->
-    <div class="box"><i class="fas fa-search"></i> Search</div> <!-- رمز بحث -->
-    <div class="box"><i class="fas fa-info-circle"></i> Info</div> <!-- رمز معلومات -->
-    <div class="box"><i class="fas fa-envelope"></i> Messages</div> <!-- رمز رسائل -->
-    <div class="box"><i class="fas fa-bell"></i> Notifications</div> <!-- رمز إشعارات -->
-    <div class="box"><i class="fas fa-camera"></i> Camera</div> <!-- رمز كاميرا -->
-    <div class="box"><i class="fas fa-play-circle"></i> Media</div> <!-- رمز وسائط -->
-    <div class="box"><i class="fas fa-cloud-upload-alt"></i> Cloud Upload</div> <!-- رمز رفع سحابي -->
+    <div class="box"><i class="fas fa-download"></i><br>Download</div>
+    <div class="box"><i class="fas fa-upload"></i><br>Upload</div>
+    <div class="box"><i class="fas fa-cogs"></i><br>Settings</div>
+    <div class="box"><i class="fas fa-search"></i><br>Search</div>
+    <div class="box"><i class="fas fa-info-circle"></i><br>Info</div>
+    <div class="box"><i class="fas fa-envelope"></i><br>Messages</div>
+    <div class="box"><i class="fas fa-bell"></i><br>Notifications</div>
+    <div class="box"><i class="fas fa-camera"></i><br>Camera</div>
+    <div class="box"><i class="fas fa-play-circle"></i><br>Media</div>
+    <div class="box"><i class="fas fa-cloud-upload-alt"></i><br>Cloud Upload</div>
 </div>
 
 <!-- Login Form -->
@@ -76,7 +78,7 @@
 <input id="password" type="password" placeholder="Enter Password" required><br><br>
 <button onclick="login()">Login</button>
 <button onclick="register()">Register</button>
-<button onclick="forgotPassword()">Forgot Password?</button> <!-- Forgot Password Button -->
+<button onclick="forgotPassword()">Forgot Password?</button>
 
 <!-- Application after login -->
 <div id="app">
@@ -84,14 +86,15 @@
     <button onclick="logout()">Logout</button>
     <h3>Pay with PayPal</h3>
     <div id="paypal-button-container"></div>
-    <button onclick="generatePDF()">Download PDF</button> <!-- PDF Button -->
+    <button onclick="generatePDF()">Download PDF</button>
 </div>
 
 <script>
+    // Firebase configuration
     const firebaseConfig = {
         apiKey: "YOUR_API_KEY",
-        authDomain: "YOUR_PROJECT.firebaseapp.com",
-        projectId: "YOUR_PROJECT_ID"
+        authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+        projectId: "YOUR_PROJECT_ID",
     };
 
     firebase.initializeApp(firebaseConfig);
@@ -102,7 +105,7 @@
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
         auth.createUserWithEmailAndPassword(email, password)
-            .then(() => alert("Account created"))
+            .then(() => alert("Account created successfully"))
             .catch(e => alert(e.message));
     }
 
@@ -138,7 +141,7 @@
 
     // PayPal Button
     paypal.Buttons({
-        createOrder: function (data, actions) {
+        createOrder: function(data, actions) {
             return actions.order.create({
                 purchase_units: [{
                     amount: {
@@ -147,8 +150,8 @@
                 }]
             });
         },
-        onApprove: function (data, actions) {
-            return actions.order.capture().then(function (details) {
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
                 alert('Payment successful, ' + details.payer.name.given_name);
             });
         }
