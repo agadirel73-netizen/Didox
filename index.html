@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Tools App</title>
+
+<style>
+body{
+  font-family: Arial;
+  margin:0;
+  background:#0f172a;
+  color:white;
+  text-align:center;
+}
+
+h1{
+  margin:20px;
+  color:#facc15;
+}
+
+.container{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:15px;
+  padding:20px;
+}
+
+.tool{
+  background:#1e293b;
+  padding:20px;
+  border-radius:12px;
+  box-shadow:0 0 10px rgba(0,0,0,0.4);
+}
+
+button{
+  margin-top:10px;
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  background:#22c55e;
+  color:white;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#16a34a;
+}
+</style>
+
+</head>
+
+<body>
+
+<h1>🔥 My Tools App</h1>
+
+<div class="container">
+
+  <div class="tool">
+    🖼️ Image Tool
+    <br>
+    <button onclick="alert('Image Tool Opened')">Open</button>
+  </div>
+
+  <div class="tool">
+    📄 PDF Tool
+    <br>
+    <button onclick="alert('PDF Tool Opened')">Open</button>
+  </div>
+
+  <div class="tool">
+    ✂️ Compressor
+    <br>
+    <button onclick="alert('Compressor Opened')">Open</button>
+  </div>
+
+  <div class="tool">
+    📝 Text Tool
+    <br>
+    <button onclick="alert('Text Tool Opened')">Open</button>
+  </div>
+
+</div>
+
+</body>
+</html>
