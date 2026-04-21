@@ -2,15 +2,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>NEX PRO TOOLS</title>
-
-<script src="https://www.paypal.com/sdk/js?client-id=sb"></script>
+<title>PRO ALL-IN-ONE APP</title>
 
 <style>
 body{
   margin:0;
   font-family:Arial;
-  background:linear-gradient(135deg,#0f172a,#020617);
+  background:linear-gradient(135deg,#0ea5e9,#1e3a8a);
   color:white;
   text-align:center;
 }
@@ -19,7 +17,6 @@ header{
   padding:15px;
   font-size:24px;
   font-weight:bold;
-  color:#facc15;
 }
 
 #login{
@@ -30,13 +27,13 @@ input, textarea{
   width:80%;
   padding:10px;
   margin:5px;
-  border-radius:8px;
   border:none;
+  border-radius:8px;
 }
 
 button{
-  padding:10px;
   width:80%;
+  padding:10px;
   margin:5px;
   border:none;
   border-radius:8px;
@@ -58,45 +55,39 @@ button{
   padding:10px;
   border-radius:12px;
 }
-
-#premium{
-  display:none;
-  color:gold;
-}
 </style>
 
 </head>
 
 <body>
 
-<header>⚡ NEX PRO TOOLS</header>
+<header>⚡ PRO ALL-IN-ONE APP</header>
 
 <!-- LOGIN -->
 <div id="login">
 <h2>Login</h2>
-<input id="user" placeholder="Username"><br>
-<input id="pass" type="password" placeholder="Password"><br>
-<button onclick="login()">Enter</button>
+<input id="user" placeholder="Username">
+<input id="pass" type="password" placeholder="Password">
+<button onclick="login()">Enter App</button>
 </div>
 
 <!-- APP -->
 <div id="app" class="container">
 
-<div class="box">📝 Text<br>
+<div class="box">📝 Text Tool<br>
 <textarea id="text"></textarea>
 <button onclick="text.value=text.value.toUpperCase()">UPPER</button>
-<button onclick="text.value=text.value.toLowerCase()">lower</button>
 </div>
 
 <div class="box">🔢 Counter<br>
-<textarea id="countText"></textarea>
-<button onclick="res.innerText='Words: '+countText.value.split(' ').length">Count</button>
+<textarea id="count"></textarea>
+<button onclick="res.innerText='Words: '+count.value.split(' ').length">Count</button>
 <p id="res"></p>
 </div>
 
 <div class="box">🔍 Search<br>
-<input id="search">
-<button onclick="window.open('https://google.com/search?q='+search.value)">Go</button>
+<input id="s">
+<button onclick="window.open('https://google.com/search?q='+s.value)">Search</button>
 </div>
 
 <div class="box">📥 Download<br>
@@ -109,21 +100,15 @@ button{
 <img id="img" width="100%">
 </div>
 
-<div class="box">📄 PDF<br>
+<div class="box">📄 PDF Viewer<br>
 <input type="file" id="pdfFile" accept="application/pdf">
 <button onclick="openPDF()">Open PDF</button>
 </div>
 
-<div class="box">⚙️ Tool 7<br><button onclick="alert('OK')">Run</button></div>
-<div class="box">⭐ Tool 8<br><button onclick="alert('OK')">Run</button></div>
-<div class="box">🚀 Tool 9<br><button onclick="alert('OK')">Run</button></div>
-<div class="box">💡 Tool 10<br><button onclick="alert('OK')">Run</button></div>
-
-<div class="box" style="grid-column:span 2;">
-💳 Premium
-<div id="paypal-button"></div>
-<div id="premium">💎 ACTIVE</div>
-</div>
+<div class="box">Tool 7</div>
+<div class="box">Tool 8</div>
+<div class="box">Tool 9</div>
+<div class="box">Tool 10</div>
 
 </div>
 
@@ -135,7 +120,7 @@ if(user.value && pass.value){
 login.style.display="none";
 app.style.display="grid";
 }else{
-alert("Fill all fields");
+alert("Enter username & password");
 }
 }
 
@@ -152,21 +137,10 @@ function openPDF(){
 let file=document.getElementById("pdfFile").files[0];
 if(file){
 window.open(URL.createObjectURL(file));
-}else alert("Select PDF");
+}else{
+alert("Select PDF file first");
 }
-
-/* PAYPAL */
-paypal.Buttons({
-  createOrder:function(data,actions){
-    return actions.order.create({
-      purchase_units:[{amount:{value:'5.00'}}]
-    });
-  },
-  onApprove:function(){
-    premium.style.display="block";
-    alert("Premium Activated");
-  }
-}).render('#paypal-button');
+}
 
 </script>
 
