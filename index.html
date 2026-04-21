@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Ultimate Tools App</title>
+<title>NEX PRO TOOLS</title>
+
+<script src="https://www.paypal.com/sdk/js?client-id=sb"></script>
 
 <style>
 body{
@@ -13,49 +15,53 @@ body{
   text-align:center;
 }
 
-h1{
-  margin:20px;
-  color:#facc15;
-  font-size:28px;
-}
-
-.container{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-  gap:15px;
-  padding:20px;
-}
-
-/* TOOL BOX */
-.tool{
-  background:rgba(255,255,255,0.9);
-  color:#111827;
-  padding:20px;
-  border-radius:15px;
-  box-shadow:0 8px 20px rgba(0,0,0,0.4);
-  transition:0.3s;
+header{
+  padding:15px;
+  font-size:24px;
   font-weight:bold;
+  color:#facc15;
 }
 
-.tool:hover{
-  transform:scale(1.08);
-  background:#e2e8f0;
+#login{
+  padding:20px;
 }
 
-/* BUTTON */
+input, textarea{
+  width:80%;
+  padding:10px;
+  margin:5px;
+  border-radius:8px;
+  border:none;
+}
+
 button{
-  margin-top:10px;
-  padding:8px 12px;
+  padding:10px;
+  width:80%;
+  margin:5px;
   border:none;
   border-radius:8px;
   background:#22c55e;
   color:white;
-  cursor:pointer;
   font-weight:bold;
 }
 
-button:hover{
-  background:#16a34a;
+.container{
+  display:none;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  padding:10px;
+}
+
+.box{
+  background:white;
+  color:black;
+  padding:10px;
+  border-radius:12px;
+}
+
+#premium{
+  display:none;
+  color:gold;
 }
 </style>
 
@@ -63,22 +69,106 @@ button:hover{
 
 <body>
 
-<h1>🔥 Ultimate Pro Tools App</h1>
+<header>⚡ NEX PRO TOOLS</header>
 
-<div class="container">
+<!-- LOGIN -->
+<div id="login">
+<h2>Login</h2>
+<input id="user" placeholder="Username"><br>
+<input id="pass" type="password" placeholder="Password"><br>
+<button onclick="login()">Enter</button>
+</div>
 
-  <div class="tool">🤖 AI Tool<br><button onclick="alert('AI Ready')">Open</button></div>
-  <div class="tool">🖼️ Image Tool<br><button onclick="alert('Image Tool')">Open</button></div>
-  <div class="tool">📄 PDF Tool<br><button onclick="alert('PDF Tool')">Open</button></div>
-  <div class="tool">📝 Text Tool<br><button onclick="alert('Text Tool')">Open</button></div>
-  <div class="tool">✂️ Compress<br><button onclick="alert('Compress Tool')">Open</button></div>
-  <div class="tool">🔍 Search<br><button onclick="alert('Search Tool')">Open</button></div>
-  <div class="tool">📥 Download<br><button onclick="alert('Download Tool')">Open</button></div>
-  <div class="tool">📤 Upload<br><button onclick="alert('Upload Tool')">Open</button></div>
-  <div class="tool">⚙️ Settings<br><button onclick="alert('Settings')">Open</button></div>
-  <div class="tool">⭐ Extra Tool<br><button onclick="alert('Extra Tool')">Open</button></div>
+<!-- APP -->
+<div id="app" class="container">
+
+<div class="box">📝 Text<br>
+<textarea id="text"></textarea>
+<button onclick="text.value=text.value.toUpperCase()">UPPER</button>
+<button onclick="text.value=text.value.toLowerCase()">lower</button>
+</div>
+
+<div class="box">🔢 Counter<br>
+<textarea id="countText"></textarea>
+<button onclick="res.innerText='Words: '+countText.value.split(' ').length">Count</button>
+<p id="res"></p>
+</div>
+
+<div class="box">🔍 Search<br>
+<input id="search">
+<button onclick="window.open('https://google.com/search?q='+search.value)">Go</button>
+</div>
+
+<div class="box">📥 Download<br>
+<textarea id="dl"></textarea>
+<button onclick="download()">Download</button>
+</div>
+
+<div class="box">🖼️ Image<br>
+<input type="file" onchange="img.src=URL.createObjectURL(event.target.files[0])">
+<img id="img" width="100%">
+</div>
+
+<div class="box">📄 PDF<br>
+<input type="file" id="pdfFile" accept="application/pdf">
+<button onclick="openPDF()">Open PDF</button>
+</div>
+
+<div class="box">⚙️ Tool 7<br><button onclick="alert('OK')">Run</button></div>
+<div class="box">⭐ Tool 8<br><button onclick="alert('OK')">Run</button></div>
+<div class="box">🚀 Tool 9<br><button onclick="alert('OK')">Run</button></div>
+<div class="box">💡 Tool 10<br><button onclick="alert('OK')">Run</button></div>
+
+<div class="box" style="grid-column:span 2;">
+💳 Premium
+<div id="paypal-button"></div>
+<div id="premium">💎 ACTIVE</div>
+</div>
 
 </div>
+
+<script>
+
+/* LOGIN */
+function login(){
+if(user.value && pass.value){
+login.style.display="none";
+app.style.display="grid";
+}else{
+alert("Fill all fields");
+}
+}
+
+/* DOWNLOAD */
+function download(){
+let a=document.createElement("a");
+a.href="data:text/plain,"+dl.value;
+a.download="file.txt";
+a.click();
+}
+
+/* PDF */
+function openPDF(){
+let file=document.getElementById("pdfFile").files[0];
+if(file){
+window.open(URL.createObjectURL(file));
+}else alert("Select PDF");
+}
+
+/* PAYPAL */
+paypal.Buttons({
+  createOrder:function(data,actions){
+    return actions.order.create({
+      purchase_units:[{amount:{value:'5.00'}}]
+    });
+  },
+  onApprove:function(){
+    premium.style.display="block";
+    alert("Premium Activated");
+  }
+}).render('#paypal-button');
+
+</script>
 
 </body>
 </html>
